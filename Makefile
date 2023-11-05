@@ -1,7 +1,18 @@
-all:
-	gcc  -m32 -no-pie -nostdlib -o fib fib.c
-	gcc -m32 -o loader loader.c
-	./loader ./fib
+CC = gcc
+CFLAGS = -Wall -g
+
+SOURCES = simpleshell.c.c fib.c helloworld.c
+EXECUTABLES = $(SOURCES:.c=)
+
+all: $(EXECUTABLES)
+
+%: %.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+run: all
+	./simpleshell.c.c
 
 clean:
-	-@rm -f fib loader
+	rm -f $(EXECUTABLES)
+
+.PHONY: all run clean
